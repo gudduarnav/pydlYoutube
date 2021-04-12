@@ -15,7 +15,7 @@
 2. Python  
 3. pysimplegui  
 4. tkinter  
-    
+5. win32clipboard     
   
 ## Developers    
 ### Arnav Mukhopadhyay  
