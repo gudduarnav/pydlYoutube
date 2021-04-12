@@ -28,7 +28,7 @@ def getCurrentPath() -> str:
 
 def execyoutubedl(cmdList : list):
     try:
-        cmdline = "{}\\{} {}".format(getCurrentPath(), "youtube-dl", " ".join(cmdList))
+        cmdline = "{}\\{} {}".format(getCurrentPath(), "youtube-dl.exe", " ".join(cmdList))
         print(cmdline)
         os.system(cmdline)
     except Exception as ex:

@@ -19,13 +19,16 @@ def mainWindow():
          sg.Button("Select Directory", key="SELECTDPATH")],
         [sg.Checkbox("Download and Embed Subtitle", default=True, key="EMBEDSRT")],
         [sg.Checkbox("Download Audio MP3", default=False, key="MP3"),
-         sg.Checkbox("Download Audio MP4", default=True, key="MP4")],
+         sg.Checkbox("Download Video MP4", default=True, key="MP4")],
+        [
+            sg.Checkbox("MAX 720p", default=True, key="max720p")
+        ],
         [sg.Button("Download", key="DOWNLOAD"), sg.Button("Update", key="UPDATE"), sg.Button("Exit", key="EXIT")]
     ]
 
     w = sg.Window(title="youtube-dl GUI",
                   layout=layout,
-                  size=(700, 180))
+                  size=(700, 240))
 
     while True:
         event, values = w.read()
@@ -42,10 +45,15 @@ def mainWindow():
         elif event == "SELECTDPATH":
             w["DPATH"].update(value = getDirName())
         elif event == "DOWNLOAD":
+            print("Preparing command...")
+
             url = values["URL"]
             path = values["DPATH"]
 
             args = list()
+            if values["max720p"]:
+                args.append("-f")
+                args.append("\"bestvideo[height<=720]+bestaudio/best[height<=720]\"")
             if values["MP3"]:
                 args.append("-f")
                 args.append("bestaudio")
@@ -61,12 +69,16 @@ def mainWindow():
                 args.append("--write-sub")
                 args.append("--embed-subs")
 
+
             args.append(url)
 
+            print("Execute command...")
             currentpath = os.getcwd()
             os.chdir(path)
             execyoutubedl(args)
             os.chdir(currentpath)
+
+            print("DONE Download complete.")
 
 
 
